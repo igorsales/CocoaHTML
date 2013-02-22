@@ -9,12 +9,6 @@
 #import "testNSAttributedString+IS_HTML.h"
 #import "NSAttributedString+IS_HTML.h"
 
-@interface NSAttributedString(HTMLPrivate)
-
-+ (NSDictionary*)_dictionaryForHTMLTag:(NSString*)htmlTag htmlTag:(NSString**)outTag isSelfContainedTag:(BOOL*)selfContained isClosingTag:(BOOL*)closingTag;
-
-@end
-
 @implementation testNSAttributedString_IS_HTML
 
 - (void)setUp
@@ -31,12 +25,13 @@
     [super tearDown];
 }
 
+#if 0
 - (void)testAttributeParsing
 {
     NSString* tag = nil;
     BOOL sc = NO;
     BOOL ct = NO;
-    NSDictionary* attrs = [NSAttributedString _dictionaryForHTMLTag:@"tagbbb a=1 b=\"x2z\" cdefFGH='3abc' space=' a b c '" htmlTag:&tag isSelfContainedTag:&sc isClosingTag:&ct];
+    NSDictionary* attrs = [NSAttributedString attributeDictionaryForHTMLTag:@"tagbbb a=1 b=\"x2z\" cdefFGH='3abc' space=' a b c '" htmlTag:&tag isSelfContainedTag:&sc isClosingTag:&ct];
     
     STAssertEqualObjects(@"tagbbb", tag, @"incorrect tag");
     STAssertEqualObjects(@"1", [attrs valueForKey:@"a"], @"incorrect attribute value");
@@ -44,6 +39,7 @@
     STAssertEqualObjects(@"3abc", [attrs valueForKey:@"cdefFGH"], @"incorrect attribute value");
     STAssertEqualObjects(@" a b c ", [attrs valueForKey:@"space"], @"incorrect attribute value");
 }
+#endif
 
 - (void)testAttributedString
 {

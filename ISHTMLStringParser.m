@@ -123,10 +123,12 @@
     NSMutableArray* stack   = [NSMutableArray new];
     NSMutableArray* toApply = [NSMutableArray new];
     
+    NSCharacterSet* htmlStoppersSet = [NSCharacterSet characterSetWithCharactersInString:@"<&"];
+    
     // scan html tags
     NSString* accum = nil;
     while (![scanner isAtEnd]) {
-        scanResult = [scanner scanUpToString:@"<" intoString:&accum];
+        scanResult = [scanner scanUpToCharactersFromSet:htmlStoppersSet intoString:&accum];
         
         if (accum) {
             // accumulate string (non-HTML)
@@ -134,7 +136,18 @@
             accum = nil;
         }
         
-        if ([scanner scanString:@"<" intoString:nil]) {
+        if ([scanner scanString:@"&" intoString:nil]) {
+            NSString* amp;
+            if (![scanner scanUpToString:@";" intoString:&amp]) {
+                // TODO: syntax error
+                return toApply;
+            }
+            if ([scanner scanString:@";" intoString:nil]) {
+                if ([amp isEqualToString:@"&nbsp"]) {
+                    [resultString appendString:@" "];
+                }
+            }
+        } else if ([scanner scanString:@"<" intoString:nil]) {
             // start HTML tag
             NSString* htmlTag = nil;
             if (![scanner scanUpToString:@">" intoString:&htmlTag]) {
