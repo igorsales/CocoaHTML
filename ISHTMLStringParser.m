@@ -143,7 +143,7 @@
                 return toApply;
             }
             if ([scanner scanString:@";" intoString:nil]) {
-                if ([amp isEqualToString:@"&nbsp"]) {
+                if ([amp isEqualToString:@"nbsp"]) {
                     [resultString appendString:@" "];
                 }
             }
