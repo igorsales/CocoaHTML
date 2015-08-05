@@ -118,8 +118,6 @@
         *outString = resultString;
     }
     
-    BOOL scanResult;
-    
     NSMutableArray* stack   = [NSMutableArray new];
     NSMutableArray* toApply = [NSMutableArray new];
     
@@ -128,7 +126,7 @@
     // scan html tags
     NSString* accum = nil;
     while (![scanner isAtEnd]) {
-        scanResult = [scanner scanUpToCharactersFromSet:htmlStoppersSet intoString:&accum];
+        [scanner scanUpToCharactersFromSet:htmlStoppersSet intoString:&accum];
         
         if (accum) {
             // accumulate string (non-HTML)
