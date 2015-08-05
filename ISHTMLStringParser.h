@@ -10,7 +10,7 @@
 
 @interface ISHTMLStringParser : NSObject
 
-@property (nonatomic, retain) UIFont* defaultFont;
+@property (nonatomic, strong) UIFont* defaultFont;
 
 - (NSDictionary*)attributeDictionaryForHTMLTag:(NSString*)htmlTag htmlTag:(NSString**)outTag isSelfContainedTag:(BOOL*)selfContained isClosingTag:(BOOL*)closingTag;
 - (NSArray*)attributesFromHTMLString:(NSString*)html outputString:(NSString**)outString;
